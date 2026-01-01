@@ -205,14 +205,14 @@ export default function Home() {
       <div className="flex items-center gap-3">
         <img
           src="/logo.png"
-          alt="NanoFluencer Logo"
-  className="h-12 md:h-16 w-auto"
+          alt="Nanofluencers Logo"
+          className="h-8 md:h-16 w-auto"
         />
 
         <span
           className={`
-            hidden sm:block
-            text-2xl md:text-3xl
+            block
+            text-xl md:text-3xl
             font-extrabold tracking-tight
             bg-gradient-to-r from-violet-400 via-pink-400 to-amber-300
             bg-clip-text text-transparent
@@ -220,19 +220,19 @@ export default function Home() {
             ${sora.className}
           `}
         >
-          NanoFluencer
+          NanoFluencers
         </span>
       </div>
 
       {/* Menu */}
       <div className="flex items-center gap-3">
-        <a href="#features" className="hidden md:block px-4 py-2 text-sm text-white/60 hover:text-white">
+        <a href="#features" className="px-2 md:px-4 py-2 text-xs md:text-sm text-white/60 hover:text-white">
           Features
         </a>
-        <a href="#platforms" className="hidden md:block px-4 py-2 text-sm text-white/60 hover:text-white">
+        <a href="#platforms" className="px-2 md:px-4 py-2 text-xs md:text-sm text-white/60 hover:text-white">
           Platforms
         </a>
-        <a href="/admin" className="px-5 py-2.5 text-sm font-medium rounded-xl bg-white/10 hover:bg-white/20 border border-white/20">
+        <a href="/admin" className="px-3 md:px-5 py-2 md:py-2.5 text-xs md:text-sm font-medium rounded-xl bg-white/10 hover:bg-white/20 border border-white/20">
           Admin
         </a>
       </div>
@@ -576,7 +576,7 @@ export default function Home() {
                 <div className="flex items-center gap-3 mb-5">
                   <img
   src="/logo.png"
-  alt="NanoFluencer Logo"
+  alt="Nanofluencers Logo"
   className="h-10 w-auto"
 />
               <span
@@ -589,7 +589,7 @@ export default function Home() {
     ${sora.className}
   `}
 >
-  NanoFluencer
+  NanoFluencers
 </span>
 
 
@@ -619,7 +619,7 @@ export default function Home() {
             </div>
             
             <div className="pt-10 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6">
-              <p className="text-white/30 text-base">© 2025 NanoFluencer.com</p>
+              <p className="text-white/30 text-base">© 2025 nanofluencers.com</p>
               <div className="flex gap-4">
                 {[InstagramIcon, YoutubeIcon, FacebookIcon].map((Icon, i) => (
                   <a key={i} href="#" className="w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all">
