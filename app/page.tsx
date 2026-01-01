@@ -205,7 +205,7 @@ export default function Home() {
       <div className="flex items-center gap-3">
         <img
           src="/logo.png"
-          alt="nanofluencer Logo"
+          alt="NanoFluencer Logo"
   className="h-12 md:h-16 w-auto"
         />
 
@@ -220,7 +220,7 @@ export default function Home() {
             ${sora.className}
           `}
         >
-          nanofluencer
+          NanoFluencer
         </span>
       </div>
 
@@ -576,7 +576,7 @@ export default function Home() {
                 <div className="flex items-center gap-3 mb-5">
                   <img
   src="/logo.png"
-  alt="nanofluencer Logo"
+  alt="NanoFluencer Logo"
   className="h-10 w-auto"
 />
               <span
@@ -589,7 +589,7 @@ export default function Home() {
     ${sora.className}
   `}
 >
-  nanofluencer
+  NanoFluencer
 </span>
 
 
@@ -619,7 +619,7 @@ export default function Home() {
             </div>
             
             <div className="pt-10 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6">
-              <p className="text-white/30 text-base">© 2025 nanofluencer.com</p>
+              <p className="text-white/30 text-base">© 2025 NanoFluencer.com</p>
               <div className="flex gap-4">
                 {[InstagramIcon, YoutubeIcon, FacebookIcon].map((Icon, i) => (
                   <a key={i} href="#" className="w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all">
