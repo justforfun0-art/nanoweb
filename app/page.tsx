@@ -1,7 +1,7 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import InfluencerForm from '@/components/InfluencerForm';
 
 import { sora } from "./fonts";
@@ -197,6 +197,24 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
+  // FIX: Custom scroll handler to account for fixed header
+  const handleScrollToSection = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false); // Close menu
+    
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 100; // Adjust this value based on your header height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
     <main className="min-h-screen bg-[#0a0118] text-white relative">
       {/* Background */}
@@ -214,14 +232,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="relative flex items-center justify-between px-6 py-4 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10">
 
-              {/* Logo - Centered on mobile via 'flex-1 justify-center' tricks or absolute positioning */}
-              {/* On desktop: standard flex row. On mobile: Logo absolute center, Hamburger left/right? 
-                  Let's do: Hamburger Left, Logo Center, Empty Right (or profile). 
-                  Or simpler: Logo Left, Hamburger Right. 
-                  User asked: "keep the text at the center for mobile view".
-              */}
-              
-              {/* 1. Mobile Menu Button (Hamburger) - Visible ONLY on Mobile */}
+              {/* 1. Mobile Menu Button (Hamburger) */}
               <div className="md:hidden"> 
                 <button 
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -231,7 +242,7 @@ export default function Home() {
                 </button>
               </div>
 
-              {/* 2. Logo - Centered on Mobile, Left on Desktop */}
+              {/* 2. Logo - Centered on Mobile */}
               <div className="flex-1 flex justify-center md:justify-start items-center gap-3">
                 <img
                   src="/logo.png"
@@ -242,7 +253,7 @@ export default function Home() {
                 <span
                   className={`
                     block
-                    text-xl md:text-3xl
+                    text-2xl md:text-4xl  /* CHANGED: Bigger size here */
                     font-extrabold tracking-tight
                     bg-gradient-to-r from-violet-400 via-pink-400 to-amber-300
                     bg-clip-text text-transparent
@@ -254,20 +265,20 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* 3. Desktop Menu - Hidden on Mobile */}
+              {/* 3. Desktop Menu */}
               <div className="hidden md:flex items-center gap-3">
-                <a href="#features" className="px-4 py-2 text-sm text-white/60 hover:text-white">
+                <a href="#features" onClick={(e) => handleScrollToSection(e, 'features')} className="px-4 py-2 text-sm text-white/60 hover:text-white cursor-pointer">
                   Features
                 </a>
-                <a href="#platforms" className="px-4 py-2 text-sm text-white/60 hover:text-white">
+                <a href="#platforms" onClick={(e) => handleScrollToSection(e, 'platforms')} className="px-4 py-2 text-sm text-white/60 hover:text-white cursor-pointer">
                   Platforms
                 </a>
-                <a href="/admin" className="px-5 py-2.5 text-sm font-medium rounded-xl bg-white/10 hover:bg-white/20 border border-white/20">
+                <Link href="/admin" className="px-5 py-2.5 text-sm font-medium rounded-xl bg-white/10 hover:bg-white/20 border border-white/20">
                   Admin
-                </a>
+                </Link>
               </div>
 
-              {/* Spacer for Mobile to balance the flex center (Optional, makes logo perfectly centered) */}
+              {/* Spacer for Mobile to balance the flex center */}
               <div className="w-10 md:hidden" /> 
             </div>
 
@@ -278,30 +289,31 @@ export default function Home() {
                   initial={{ opacity: 0, y: -20, height: 0 }}
                   animate={{ opacity: 1, y: 0, height: 'auto' }}
                   exit={{ opacity: 0, y: -20, height: 0 }}
-                  className="md:hidden mt-2 overflow-hidden bg-[#0f0520]/95 backdrop-blur-xl rounded-2xl border border-white/10"
+                  className="md:hidden mt-2 overflow-hidden bg-[#0f0520]/95 backdrop-blur-xl rounded-2xl border border-white/10 relative z-50"
                 >
                   <div className="flex flex-col p-4 space-y-2">
                     <a 
                       href="#features" 
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                      onClick={(e) => handleScrollToSection(e, 'features')}
+                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
                     >
                       Features
                     </a>
                     <a 
                       href="#platforms" 
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                      onClick={(e) => handleScrollToSection(e, 'platforms')}
+                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
                     >
                       Platforms
                     </a>
-                    <a 
+                    
+                    <Link 
                       href="/admin" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="block px-4 py-3 text-center font-semibold text-white bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl transition-all"
                     >
                       Admin Panel
-                    </a>
+                    </Link>
                   </div>
                 </motion.div>
               )}
@@ -309,14 +321,13 @@ export default function Home() {
           </div>
         </nav>
 
-
         {/* ==================== HERO SECTION ==================== */}
         <motion.section 
           style={{ opacity: heroOpacity }}
           className="min-h-screen flex items-center justify-center px-6 pt-28 pb-20"
         >
+          {/* ... Hero Content ... */}
           <div className="max-w-4xl mx-auto text-center">
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -329,7 +340,6 @@ export default function Home() {
               </span>
             </motion.div>
 
-            {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -344,7 +354,6 @@ export default function Home() {
               <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Income</span>
             </motion.h1>
 
-            {/* Subheadline */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -355,7 +364,6 @@ export default function Home() {
               <span className="text-white font-semibold">2,000+</span> nano-influencers already earning.
             </motion.p>
 
-            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -370,13 +378,13 @@ export default function Home() {
               </button>
               <a
                 href="#features"
-                className="px-8 py-4 rounded-2xl font-semibold text-white/80 bg-white/5 border border-white/20 hover:bg-white/10 transition-all"
+                onClick={(e) => handleScrollToSection(e, 'features')}
+                className="px-8 py-4 rounded-2xl font-semibold text-white/80 bg-white/5 border border-white/20 hover:bg-white/10 transition-all cursor-pointer"
               >
                 Learn More
               </a>
             </motion.div>
 
-            {/* Trust Badges */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -668,8 +676,8 @@ export default function Home() {
               <div>
                 <h4 className="font-semibold text-white mb-5">Platform</h4>
                 <div className="space-y-4">
-                  <a href="#features" className="block text-white/40 hover:text-white text-base transition-colors">Features</a>
-                  <a href="#platforms" className="block text-white/40 hover:text-white text-base transition-colors">Platforms</a>
+                  <a href="#features" onClick={(e) => handleScrollToSection(e, 'features')} className="block text-white/40 hover:text-white text-base transition-colors cursor-pointer">Features</a>
+                  <a href="#platforms" onClick={(e) => handleScrollToSection(e, 'platforms')} className="block text-white/40 hover:text-white text-base transition-colors cursor-pointer">Platforms</a>
                   <a href="#" className="block text-white/40 hover:text-white text-base transition-colors">For Brands</a>
                 </div>
               </div>
