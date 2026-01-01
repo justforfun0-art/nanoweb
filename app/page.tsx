@@ -292,25 +292,27 @@ export default function Home() {
                   className="md:hidden mt-2 overflow-hidden bg-[#0f0520]/95 backdrop-blur-xl rounded-2xl border border-white/10 relative z-50"
                 >
                   <div className="flex flex-col p-4 space-y-2">
-                    <a 
-                      href="#features" 
+                    {/* BUTTON 1: Features */}
+                    <button
                       onClick={(e) => handleScrollToSection(e, 'features')}
-                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
+                      className="block w-full text-left px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
                     >
                       Features
-                    </a>
-                    <a 
-                      href="#platforms" 
+                    </button>
+
+                    {/* BUTTON 2: Platforms */}
+                    <button
                       onClick={(e) => handleScrollToSection(e, 'platforms')}
-                      className="block px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
+                      className="block w-full text-left px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
                     >
                       Platforms
-                    </a>
+                    </button>
                     
+                    {/* BUTTON 3: Admin (Standard Link) */}
                     <Link 
                       href="/admin" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block px-4 py-3 text-center font-semibold text-white bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl transition-all"
+                      className="block w-full px-4 py-3 text-center font-semibold text-white bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl transition-all"
                     >
                       Admin Panel
                     </Link>
