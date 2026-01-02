@@ -5,7 +5,7 @@ import Link from 'next/link';
 import InfluencerForm from '@/components/InfluencerForm';
 
 import { sora } from "./fonts";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 /* ============================================
    UTILITY COMPONENTS
@@ -177,45 +177,28 @@ function WalletIcon({ className }: { className?: string }) {
   );
 }
 
-function MenuIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="4" y1="12" x2="20" y2="12" />
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="4" y1="18" x2="20" y2="18" />
-    </svg>
-  );
-}
-
 /* ============================================
    MAIN PAGE COMPONENT
 ============================================ */
 
 export default function Home() {
   const [showForm, setShowForm] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  // FIX: Custom scroll handler to account for fixed header
+  // Scroll handler for desktop navigation
   const handleScrollToSection = (sectionId: string) => {
-    // Close mobile menu first
-    setIsMobileMenuOpen(false);
-    
-    // Small delay to allow menu to close before scrolling
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        const headerOffset = 100; // Adjust this value based on your header height
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }, 100);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
@@ -235,17 +218,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="relative flex items-center justify-between px-6 py-4 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10">
 
-              {/* 1. Mobile Menu Button (Hamburger) */}
-              <div className="md:hidden"> 
-                <button 
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="p-2 text-white/70 hover:text-white transition-colors"
-                >
-                  <MenuIcon className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* 2. Logo - Centered on Mobile - INCREASED SIZE */}
+              {/* Logo - Centered on Mobile, Left on Desktop */}
               <div className="flex-1 flex justify-center md:justify-start items-center gap-3">
                 <img
                   src="/logo.png"
@@ -256,7 +229,7 @@ export default function Home() {
                 <span
                   className={`
                     block
-                    text-2xl md:text-4xl  /* CHANGED: Bigger size here */
+                    text-2xl md:text-4xl
                     font-extrabold tracking-tight
                     bg-gradient-to-r from-violet-400 via-pink-400 to-amber-300
                     bg-clip-text text-transparent
@@ -268,7 +241,7 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* 3. Desktop Menu */}
+              {/* Desktop Menu - Hidden on Mobile */}
               <div className="hidden md:flex items-center gap-3">
                 <button 
                   onClick={() => handleScrollToSection('features')} 
@@ -286,51 +259,7 @@ export default function Home() {
                   Admin
                 </Link>
               </div>
-
-              {/* Spacer for Mobile to balance the flex center */}
-              <div className="w-10 md:hidden" /> 
             </div>
-
-            {/* Mobile Menu Dropdown */}
-            <AnimatePresence>
-              {isMobileMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: -20, height: 0 }}
-                  className="md:hidden mt-2 overflow-hidden bg-[#0f0520]/95 backdrop-blur-xl rounded-2xl border border-white/10 relative z-50"
-                >
-                  <div className="flex flex-col p-4 space-y-2">
-                    {/* BUTTON 1: Features - FIXED */}
-                    <button
-                      type="button"
-                      onClick={() => handleScrollToSection('features')}
-                      className="block w-full px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
-                    >
-                      Features
-                    </button>
-
-                    {/* BUTTON 2: Platforms - FIXED */}
-                    <button
-                      type="button"
-                      onClick={() => handleScrollToSection('platforms')}
-                      className="block w-full px-4 py-3 text-center text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
-                    >
-                      Platforms
-                    </button>
-                    
-                    {/* BUTTON 3: Admin (Standard Link) */}
-                    <Link 
-                      href="/admin" 
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block w-full px-4 py-3 text-center font-semibold text-white bg-violet-600/20 hover:bg-violet-600/30 border border-violet-500/30 rounded-xl transition-all"
-                    >
-                      Admin Panel
-                    </Link>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         </nav>
 
@@ -339,7 +268,6 @@ export default function Home() {
           style={{ opacity: heroOpacity }}
           className="min-h-screen flex items-center justify-center px-6 pt-28 pb-20"
         >
-          {/* ... Hero Content ... */}
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
